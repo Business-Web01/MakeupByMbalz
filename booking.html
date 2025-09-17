@@ -1,0 +1,264 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Booking Slots</title>
+  <style>
+    body {
+      margin: 0;
+      padding: 0;
+      font-family: "Didot", serif;
+      background: black;
+      color: white;
+      text-align: center;
+      overflow-x: hidden;
+    }
+
+    /* Glitter effect */
+    body::before {
+      content: "";
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: url("https://i.ibb.co/vwB9RYS/silver-glitter.png");
+      background-size: cover;
+      opacity: 0.15;
+      z-index: -1;
+      animation: shimmer 6s infinite linear;
+    }
+
+    @keyframes shimmer {
+      from {background-position: 0 0;}
+      to {background-position: 100% 100%;}
+    }
+
+    h1 {
+      margin: 20px 0;
+      font-size: 24px;
+    }
+
+    .months {
+      display: flex;
+      justify-content: center;
+      flex-wrap: wrap;
+      gap: 15px;
+      margin: 20px;
+    }
+
+    .month {
+      border: 1px solid white;
+      padding: 10px 20px;
+      cursor: pointer;
+      transition: 0.3s;
+    }
+
+    .month:hover {
+      background: white;
+      color: black;
+    }
+
+    .calendar {
+      display: none;
+      margin: 20px auto;
+      max-width: 400px;
+    }
+
+    .time-slots {
+      display: flex;
+      justify-content: center;
+      gap: 10px;
+      flex-wrap: wrap;
+      margin-top: 15px;
+    }
+
+    .slot {
+      border: 1px solid silver;
+      padding: 8px 15px;
+      cursor: pointer;
+      transition: 0.3s;
+    }
+
+    .slot:hover {
+      background: silver;
+      color: black;
+    }
+
+    /* Popup */
+    .popup, .form-popup {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(0,0,0,0.8);
+      display: none;
+      justify-content: center;
+      align-items: center;
+      z-index: 10;
+    }
+
+    .popup-content, .form-content {
+      background: white;
+      color: black;
+      padding: 20px;
+      border-radius: 8px;
+      max-width: 400px;
+      text-align: center;
+    }
+
+    button {
+      margin-top: 10px;
+      padding: 8px 15px;
+      border: none;
+      border-radius: 4px;
+      cursor: pointer;
+    }
+
+    .btn-yes {
+      background: green;
+      color: white;
+    }
+
+    .btn-no {
+      background: red;
+      color: white;
+    }
+
+    .btn-submit {
+      background: gray;
+      color: white;
+      width: 100%;
+      margin-top: 15px;
+    }
+
+    form input, form select {
+      width: 100%;
+      padding: 8px;
+      margin: 8px 0;
+      border: 1px solid #ccc;
+      border-radius: 4px;
+    }
+
+    label {
+      font-size: 14px;
+    }
+
+    @media(max-width:600px) {
+      .months {
+        flex-direction: column;
+      }
+    }
+  </style>
+</head>
+<body>
+  <h1>Available Slots for the following 2025 months</h1>
+
+  <div class="months">
+    <div class="month" onclick="showCalendar('September')">September</div>
+    <div class="month" onclick="showCalendar('October')">October</div>
+    <div class="month" onclick="showCalendar('November')">November</div>
+    <div class="month" onclick="showCalendar('December')">December</div>
+  </div>
+
+  <!-- Calendar placeholder -->
+  <div id="calendar" class="calendar">
+    <h2 id="calendarTitle"></h2>
+    <div class="time-slots">
+      <div class="slot" onclick="confirmSlot('7:00 AM')">7:00 AM</div>
+      <div class="slot" onclick="confirmSlot('9:00 AM')">9:00 AM</div>
+      <div class="slot" onclick="confirmSlot('12:00')">12:00</div>
+      <div class="slot" onclick="confirmSlot('14:30')">14:30</div>
+    </div>
+  </div>
+
+  <!-- Confirmation Popup -->
+  <div id="popup" class="popup">
+    <div class="popup-content">
+      <p id="popupMessage">Hey there! Are you booking this time slot?</p>
+      <button class="btn-yes" onclick="openForm()">Yes</button>
+      <button class="btn-no" onclick="closePopup()">No</button>
+    </div>
+  </div>
+
+  <!-- Booking Form -->
+  <div id="formPopup" class="form-popup">
+    <div class="form-content">
+      <form id="bookingForm">
+        <input type="text" name="name" placeholder="Name" required>
+        <input type="text" name="surname" placeholder="Surname" required>
+        <input type="email" name="email" placeholder="Email Address" required>
+        <input type="text" name="date" id="dateField" readonly>
+        <input type="text" name="time" id="timeField" readonly>
+
+        <select name="service" required>
+          <option value="">Select Service</option>
+          <option value="Bridal Makeup">Bridal Makeup</option>
+          <option value="Event Glam">Event Glam</option>
+          <option value="Soft Glam">Soft Glam</option>
+        </select>
+
+        <label>
+          <input type="checkbox" required>
+          I agree that I will pay R100 booking fee to secure my slot
+        </label>
+
+        <button type="submit" class="btn-submit">Book My Spot</button>
+      </form>
+    </div>
+  </div>
+
+  <!-- EmailJS library -->
+  <script src="https://cdn.jsdelivr.net/npm/emailjs-com@2/dist/email.min.js"></script>
+  <script>
+    emailjs.init("YOUR_EMAILJS_USER_ID"); // Replace with your EmailJS userID
+
+    let selectedMonth = "";
+    let selectedTime = "";
+
+    function showCalendar(month) {
+      selectedMonth = month;
+      document.getElementById("calendarTitle").innerText = month + " 2025";
+      document.getElementById("calendar").style.display = "block";
+    }
+
+    function confirmSlot(time) {
+      selectedTime = time;
+      document.getElementById("popup").style.display = "flex";
+      document.getElementById("popupMessage").innerText =
+        "Hey there! Are you booking " + selectedTime + " in " + selectedMonth + "?";
+    }
+
+    function closePopup() {
+      document.getElementById("popup").style.display = "none";
+    }
+
+    function openForm() {
+      closePopup();
+      document.getElementById("formPopup").style.display = "flex";
+      document.getElementById("dateField").value = selectedMonth + " 2025";
+      document.getElementById("timeField").value = selectedTime;
+    }
+
+    document.getElementById("bookingForm").addEventListener("submit", function(e) {
+      e.preventDefault();
+
+      emailjs.send("YOUR_SERVICE_ID", "YOUR_TEMPLATE_ID", {
+        name: this.name.value,
+        surname: this.surname.value,
+        email: this.email.value,
+        date: this.date.value,
+        time: this.time.value,
+        service: this.service.value
+      }).then(() => {
+        alert("Booking details sent successfully!");
+        document.getElementById("formPopup").style.display = "none";
+      }, (err) => {
+        alert("Failed to send booking: " + JSON.stringify(err));
+      });
+    });
+  </script>
+</body>
+</html>

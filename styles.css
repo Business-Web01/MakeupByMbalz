@@ -1,0 +1,327 @@
+/* Reset-ish */
+* { box-sizing: border-box; margin: 0; padding: 0; }
+:root{
+  --max-width: 980px;
+  --accent: #111;
+  --muted: #666;
+  --card-shadow: 0 6px 18px rgba(0,0,0,0.12);
+}
+
+/* Page container */
+body{
+  font-family: "Playfair Display", serif;
+  color: #111;
+  background: #fff;
+  line-height: 1.4;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+.container{
+  max-width: var(--max-width);
+  margin: 24px auto;
+  padding: 28px;
+}
+
+/* Header */
+.top-header{
+  text-align: center;
+  margin-bottom: 28px;
+}
+.title{
+  font-size: 100px;
+  font-weight: 900;
+  letter-spacing: 2px;
+  margin-bottom: 6px;
+  line-height: 0.9;
+}
+.byline{
+  font-size: 20px;
+  color: var(--muted);
+  margin-bottom: 4px;
+}
+.byline .script{
+  font-family: "Great Vibes", cursive;
+  font-size: 34px;
+  color: #111;
+}
+.location-line{
+  color: var(--muted);
+  font-size: 14px;
+  margin-top: 8px;
+}
+
+/* Intro section - two columns */
+.intro{
+  display: grid;
+  grid-template-columns: 320px 1fr;
+  gap: 28px;
+  align-items: start;
+  margin-top: 18px;
+}
+
+/* Portrait */
+.portrait {
+  background: #fff;
+  padding: 8px;
+  border: 1px solid #e9e9e9;
+  box-shadow: 0 8px 20px rgba(0,0,0,0.08);
+  width: 100%;
+  max-width: 320px;
+}
+.portrait img{
+  display:block;
+  width:100%;
+  height: auto;
+  object-fit: cover;
+}
+
+/* Intro text */
+.intro-text .meet{
+  font-family: "Great Vibes", cursive;
+  font-size: 36px;
+  margin-bottom: 4px;
+}
+.intro-text .meet .bold{
+  font-family: "Playfair Display", serif;
+  font-weight: 700;
+  font-size: 28px;
+  margin-left: 6px;
+}
+.bio{
+  color: #333;
+  margin-top: 8px;
+  max-width: 640px;
+  font-size: 15px;
+}
+
+/* side-by-side container */
+.side-by-side{
+  margin-top: 14px;
+  display: grid;
+  grid-template-columns: 240px 1fr;
+  gap: 20px;
+  align-items: start;
+}
+
+/* hours card */
+.hours-card{
+  background: #f7f7f7;
+  padding: 18px;
+  border-radius: 2px;
+  box-shadow: var(--card-shadow);
+}
+.hours-title{
+  font-family: "Great Vibes", cursive;
+  font-size: 26px;
+  margin-bottom: 12px;
+}
+.hours-grid .hours-row{
+  display:flex;
+  justify-content:space-between;
+  padding: 8px 6px;
+  border-top:1px solid rgba(0,0,0,0.04);
+}
+.hours-row strong{ font-weight:700; font-size:14px; }
+.hours-row span{ font-size:13px; color: var(--muted); }
+
+/* contact block */
+.contact-block h3{
+  margin-top: 6px;
+  margin-bottom: 6px;
+  font-size: 16px;
+  letter-spacing: 0.2px;
+}
+.contact-block p{ color: var(--muted); font-size: 14px; }
+
+/* Policies */
+.policies{
+  margin-top: 34px;
+}
+.section-title{
+  font-size: 40px;
+  margin-bottom: 18px;
+}
+.policies-grid{
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 18px;
+}
+.policy{
+  background: #fff;
+  border: 1px solid #eee;
+  padding: 18px;
+  box-shadow: 0 12px 28px rgba(0,0,0,0.06);
+  min-height: 140px;
+}
+.policy h4{
+  font-size: 14px;
+  margin-bottom: 8px;
+  font-weight:700;
+}
+.policy p{
+  color: #555;
+  font-size: 13px;
+  line-height: 1.45;
+}
+
+/* Before appointment */
+.before-appointment{
+  margin-top: 36px;
+  text-align: center;
+}
+.before-appointment .script{
+  font-family: "Great Vibes", cursive;
+  font-size: 30px;
+}
+.appointment-boxes{
+  display:flex;
+  gap:18px;
+  justify-content:center;
+  margin-top:16px;
+  flex-wrap:wrap;
+}
+.appt-box{
+  border:1px solid #ddd;
+  padding:14px 22px;
+  min-width: 220px;
+  font-weight:700;
+  letter-spacing: 1px;
+  box-shadow: 0 6px 18px rgba(0,0,0,0.06);
+}
+
+/* Responsive */
+@media (max-width: 980px){
+  .intro{ grid-template-columns: 1fr; }
+  .side-by-side{ grid-template-columns: 1fr; }
+  .policies-grid{ grid-template-columns: 1fr; }
+  .title{ font-size: 62px; }
+}
+
+@media (max-width: 520px){
+  .title{ font-size: 46px; }
+  .byline .script{ font-size: 26px; }
+  .hours-card{ padding: 12px; }
+  .appt-box{ min-width: 100%; }
+}
+
+
+/* Wall of Fame */
+.wall-of-fame{
+  margin-top: 36px;
+}
+.gallery{
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 18px;
+}
+.gallery-item{
+  position: relative;
+  background: #fff;
+  padding: 6px;
+  border: 1px solid #e9e9e9;
+  box-shadow: var(--card-shadow);
+}
+.gallery-item img{
+  width: 100%;
+  height: auto;
+  display: block;
+  object-fit: cover;
+}
+
+/* Info button (top-right corner) */
+.info-btn{
+  position: absolute;
+  top: 8px;
+  right: 8px;
+  background: white;
+  color: black;
+  border: none;
+  font-weight: bold;
+  font-size: 14px;
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  cursor: pointer;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.2);
+}
+
+/* Overlay with info */
+.info-overlay{
+  position: absolute;
+  top: 0;
+  left: 0;
+  right:0;
+  bottom:0;
+  background: rgba(255,255,255,0.95);
+  display: none;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  text-align: center;
+  padding: 10px;
+}
+.info-overlay p{
+  font-size: 15px;
+  margin-bottom: 8px;
+}
+.close-btn{
+  background: black;
+  color: white;
+  border: none;
+  padding: 6px 12px;
+  cursor: pointer;
+  font-size: 13px;
+  border-radius: 3px;
+}
+
+/* Responsive */
+@media (max-width: 980px){
+  .gallery{
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+@media (max-width: 520px){
+  .gallery{
+    grid-template-columns: 1fr;
+  }
+}
+/* CTA button at bottom of Wall of Fame */
+.cta-container{
+  text-align: center;
+  margin-top: 24px;
+}
+
+.shimmer-btn{
+  display: inline-block;
+  padding: 14px 28px;
+  font-size: 16px;
+  font-weight: 700;
+  color: white;
+  background: linear-gradient(120deg, #111, #333, #111);
+  background-size: 200% auto;
+  border-radius: 40px;
+  text-decoration: none;
+  transition: transform 0.2s ease;
+  animation: shimmer 3s linear infinite;
+  box-shadow: 0 6px 18px rgba(0,0,0,0.2);
+}
+
+.shimmer-btn:hover{
+  transform: scale(1.05);
+}
+
+/* shimmer animation */
+@keyframes shimmer {
+  0% { background-position: 0% center; }
+  100% { background-position: 200% center; }
+}
+
+/* Responsive: make sure button isn't cropped */
+@media (max-width: 520px){
+  .shimmer-btn{
+    width: 100%;
+    max-width: 320px;
+    padding: 14px 0;
+  }
+}
